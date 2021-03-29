@@ -1,0 +1,430 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "Device Registration Service API's",
+        "description": "apis to power edine automation application",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://edinemenu.deviotsolution.ooredoo.qa/",
+            "description": ""
+        }
+    ],
+    "paths": {
+            "/devices": {
+                "post": {
+                    "tags": ["Manage Devices"],
+                    "summary": "create new device in platform",
+                    "description": "",
+                    "parameters": [],
+                    "requestBody": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/device"
+                                }
+                            }
+                        }
+                    },
+                    "responses": {
+                            "200": {
+                                "description": "Success",
+                                "content": {
+                                    "application/json": {
+                                        "schema": {
+                                            "$ref": "#/components/schemas/device"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    
+                }
+            },
+            "/devices/{deviceId}/change_status": {
+                "patch":{
+                    "tags":["Manage Devices"],
+                    "summary":"",
+                    "description":"",
+                    "parameters":[{
+                        "in": "path",
+                        "name": "deviceId",
+                        "schema":{
+                            "type":"integer"
+                        },
+                        "required": true
+                    }],
+                    "requestBody":{
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "properties":{
+                                        "status": {
+                                            "description":"ACTIVE/INACTIVE",
+                                            "type":"string",
+                                            "example": "ACTIVE"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "responses":{
+                        "200":{
+                            "description": "Success"
+                        }
+                    }
+                }
+            },
+            "/organizations": {
+                "post": {
+                    "tags": ["Manage Organizations"],
+                    "summary": "",
+                    "description": "",
+                    "parameters": [],
+                    "requestBody": {
+                        "content": {
+                            "application/json":{
+                                "schema": {
+                                    "$ref": "#/components/schemas/organization"
+                                }
+                            }
+                        }
+                    },
+                    "responses": {
+                        "200": {
+                            "content": {
+                                "application/json": {
+                                    "schema":{
+                                        "$ref":"#/components/schemas/organization"
+                                    }
+                                }
+                            },
+                            "description":""
+                        }
+                    }
+                },
+                "get": {
+                    "summary": "",
+                    "tags": ["Manage Organizations"],
+                    "description": "",
+                    "parameters": [],
+                    "requestBody": {
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "$ref": "#/components/schemas/organization"
+                                }
+                            }
+                        }
+                    },
+                    "responses": {
+                        "200": {
+                            "description": "",
+                            "content":{
+                                "application/json": {
+                                    "schema": {
+                                        "$ref": "#/components/schemas/organization"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "/device-templates": {
+                "post": {
+                    "tags": ["Manage Device Templates"],
+                    "description": "",
+                    "parameters": [],
+                    "summary": "add templates for devices",
+                    "requestBody": {
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "$ref": "#/components/schemas/template"
+                                }
+                            }
+                        }
+                    },
+                    "responses":{
+                        "200":{
+                            "content":{
+                                "application/json":{
+                                    "schema":{
+                                        "$ref":"#/components/schemas/template"
+                                    }
+                                }
+                            },
+                            "description":"Success"
+                        }
+                    }
+                },
+                "get":{
+                    "description":"",
+                    "summary":"",
+                    "tags": ["Manage Device Templates"],
+                    "parameters":[
+                        {
+                            "in": "path",
+                            "name": "id",
+                            "schema":{
+                                "type": "integer"
+                            },
+                            "description": ""
+                        }
+                    ],
+                    "responses":{
+                        "200":{
+                            "content":{
+                                "application/json":{
+                                    "schema":{
+                                        "type": "Array",
+                                        "$ref":"#/components/schemas/template"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "/device-templates/{templateId}": {
+                "get": {
+                    "description":"",
+                    "tags": ["Manage Device Templates"],
+                    "parameters":[{
+                        "in": "path",
+                        "name": "templateId",
+                        "schema":{
+                            "type":"integer"
+                        },
+                        "required": true
+                    }],
+                    "summary": "",
+                    "responses": {
+                        "200": {
+                            "description": "success",
+                            "content":{
+                                "application/json":{
+                                    "schema":{
+                                        "$ref":"#/components/schemas/template"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "/device-types": {
+                "post": {
+                    "description": "",
+                    "summary": "",
+                    "tags": ["Manage Device Types"],
+                    "parameters": [],
+                    "requestBody": {
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref":"#/components/schemas/device-types"
+                                }
+                            }
+                        }
+                    },
+                    "responses":{
+                        "200":{
+                            "description":"Success",
+                            "content":{
+                                "application/json":{
+                                    "schema":{
+                                        "$ref":"#/components/schemas/device-types"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+    "components": {
+        "schemas": {
+            "template": {
+                "type": "object",
+                "description": "",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "desciption": "id of the registered template",
+                        "example": 10
+                    },
+                    "title": {
+                        "type": "string",
+                        "desciption": "title correspond template",
+                        "example": "SmartMeter_2.0"
+                    },
+                    "device_type_id": {
+                        "type": "integer",
+                        "desciption": "device type ",
+                        "example": 10
+                    },
+                    "c8y_Software": {
+                        "type": "object",
+                        "description": "override cumulocity fragment object for software specifications of the device like version etc",
+                        "example": "{'version':2.0.0.1}"
+                    },
+                    "c8y_Hardware": {
+                        "type": "object",
+                        "description": "override cumulocity fragment object for software specifications of the device like version etc",
+                        "example": "{'model':103455, 'serailNumber': '', 'revision': ''}"
+                    },
+                    "c8y_SuppportedOperations": {
+                        "type": "array",
+                        "description": "override cumulocity fragment object for list of operations supported by the device.",
+                        "example": "['c8y_Restart']"
+                    }
+                }
+            },
+            "organization": {
+                "type": "object",
+                "description": "",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "desciption": "",
+                        "example": ""
+                    },
+                    "name": {
+                        "type": "string",
+                        "desciption": "",
+                        "example": ""
+                    },
+                    "email": {
+                        "type": "string",
+                        "desciption": "",
+                        "example": ""
+                    },
+                    "contact_person": {
+                        "type": "string",
+                        "desciption": "",
+                        "example": ""
+                    },
+                    "address": {
+                        "type": "string",
+                        "desciption": "",
+                        "example": ""
+                    }
+                }
+            },
+            "credentials": {
+                "type": "object",
+                "description": "",
+                "properties": {
+                    "tenant": {
+                        "type": "string",
+                        "desciption": "",
+                        "example": ""
+                    },
+                    "username": {
+                        "type": "",
+                        "descritption": "",
+                        "example": ""
+                    },
+                    "password": {
+                        "type": "",
+                        "descritption": "",
+                        "example": ""
+                    },
+                    "clone_id": {
+                        "type": "",
+                        "descritption": "",
+                        "example": ""
+                    }
+                }
+            },
+            "device": {
+                "type": "object",
+                "description": "",
+                "properties": {
+                    "name":{
+                        "type": "string",
+                        "description": "",
+                        "example": "string"
+                    },
+                    "imei": {
+                        "type": "string",
+                        "description": "",
+                        "example": "string"
+                    },
+                    "model": {
+                        "type": "string",
+                        "description": "",
+                        "example": "string"
+                    },
+                    "credentials": {
+                       "$ref": "#/components/schemas/credentials"
+                    },
+                    "template_id": {
+                        "type": "integer",
+                        "description": "",
+                        "example": 1
+                    },
+                    "device_type_id": {
+                        "type": "integer",
+                        "description": "",
+                        "example": 1
+                    },
+                    "organisation_id": {
+                        "type": "integer",
+                        "description": "",
+                        "example": 1
+                    },
+                    "required_interval": {
+                        "type": "integer",
+                        "description": "data interval time in min(s)",
+                        "example": 10
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "",
+                        "example": "ACTIVE/INACTIVE"
+                    }
+                }
+            },
+            "device-types": {
+                "type": "object",
+                "description": "",
+                "properties": {
+                    "title": {
+                        "desciption": "ed_TableOccupencySensor",
+                        "type": "string",
+                        "example": "string"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "",
+                        "example": "string"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Manage Devices",
+            "description": "operations"
+        },
+        {
+            "name": "Manage Organizations",
+            "description": "operations"
+        },
+        {
+            "name": "Manage Device Templates",
+            "description": "operations"
+        },
+        {
+            "name": "Manage Device Types",
+            "description": "operations"
+        }
+    ]
+}
+    
