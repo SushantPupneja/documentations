@@ -1,0 +1,30 @@
+{
+  "name": "documentations",
+  "version": "1.0.0",
+  "description": "add docs for the projects",
+  "main": "server.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "node server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SushantPupneja/documentations.git"
+  },
+  "keywords": [
+    "docs"
+  ],
+  "author": "Sushant Pupneja",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SushantPupneja/documentations/issues"
+  },
+  "homepage": "https://github.com/SushantPupneja/documentations#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "swagger-ui-express": "^4.1.6"
+  }
+}
