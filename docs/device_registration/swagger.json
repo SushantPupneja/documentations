@@ -7,7 +7,7 @@
     },
     "servers": [
         {
-            "url": "https://edinemenu.deviotsolution.ooredoo.qa/",
+            "url": "https://edinemenu.deviotsolution.ooredoo.qa/api/v1",
             "description": ""
         }
     ],
@@ -40,9 +40,27 @@
                             }
                         }
                     
+                },
+                "get":{
+                    "description":"Get all registered devices in the platform",
+                    "summary":"",
+                    "tags":["Manage Devices"],
+                    "responses":{
+                        "200":{
+                            "description":"success",
+                            "content":{
+                                "application/json":{
+                                    "type":"Array",
+                                    "schema":{
+                                        "$ref":"#/components/schemas/device"
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             },
-            "/devices/{deviceId}/change_status": {
+            "/devices/{deviceId}/status": {
                 "patch":{
                     "tags":["Manage Devices"],
                     "summary":"",
@@ -133,7 +151,26 @@
                     }
                 }
             },
-            "/device-templates": {
+            "/organizations/{orgId}": {
+                "get":{
+                    "description": "",
+                    "summary": "",
+                    "tags":["Manage Organizations"],
+                    "responses":{
+                        "200":{
+                            "description":"success",
+                            "content":{
+                                "application/json":{
+                                    "schema":{
+                                        "$ref":"#/components/schemas/organization"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "/device/templates": {
                 "post": {
                     "tags": ["Manage Device Templates"],
                     "description": "",
@@ -189,7 +226,7 @@
                     }
                 }
             },
-            "/device-templates/{templateId}": {
+            "/device/templates/{templateId}": {
                 "get": {
                     "description":"",
                     "tags": ["Manage Device Templates"],
@@ -216,7 +253,7 @@
                     }
                 }
             },
-            "/device-types": {
+            "/device/types": {
                 "post": {
                     "description": "",
                     "summary": "",
@@ -234,6 +271,23 @@
                     "responses":{
                         "200":{
                             "description":"Success",
+                            "content":{
+                                "application/json":{
+                                    "schema":{
+                                        "$ref":"#/components/schemas/device-types"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "get": {
+                    "description": "",
+                    "summary": "",
+                    "tags": ["Manage Device Types"],
+                    "responses":{
+                        "200":{
+                            "description":"success",
                             "content":{
                                 "application/json":{
                                     "schema":{
