@@ -7,12 +7,20 @@
     },
     "servers": [
         {
-            "url": "https://edinemenu.deviotsolution.ooredoo.qa/api/v1",
-            "description": ""
+            "url": "https://edinemenu.deviotsolution.ooredoo.qa/service/{service_name}/api/{version}",
+            "variables": {
+                "service_name": {
+                    "default": "drs"
+                },
+                "version": {
+                    "default": "v1"
+                }
+            },
+            "description": "iot instance url"
         }
     ],
     "paths": {
-            "/devices": {
+            "/platform/devices": {
                 "post": {
                     "tags": ["Manage Devices"],
                     "summary": "create new device in platform",
@@ -60,7 +68,7 @@
                     }
                 }
             },
-            "/devices/{deviceId}/status": {
+            "/platform/devices/{deviceId}/status": {
                 "patch":{
                     "tags":["Manage Devices"],
                     "summary":"",
@@ -95,7 +103,7 @@
                     }
                 }
             },
-            "/organizations": {
+            "/platform/organizations": {
                 "post": {
                     "tags": ["Manage Organizations"],
                     "summary": "",
@@ -151,7 +159,7 @@
                     }
                 }
             },
-            "/organizations/{orgId}": {
+            "/paltform/organizations/{orgId}": {
                 "get":{
                     "description": "",
                     "summary": "",
@@ -170,7 +178,7 @@
                     }
                 }
             },
-            "/device/templates": {
+            "/platform/device/templates": {
                 "post": {
                     "tags": ["Manage Device Templates"],
                     "description": "",
@@ -226,7 +234,7 @@
                     }
                 }
             },
-            "/device/templates/{templateId}": {
+            "/paltform/device/templates/{templateId}": {
                 "get": {
                     "description":"",
                     "tags": ["Manage Device Templates"],
@@ -253,7 +261,7 @@
                     }
                 }
             },
-            "/device/types": {
+            "/platform/device/types": {
                 "post": {
                     "description": "",
                     "summary": "",
