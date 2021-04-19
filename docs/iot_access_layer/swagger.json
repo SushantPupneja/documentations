@@ -1,0 +1,354 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "Edine Automation API's",
+        "description": "apis to power edine automation application",
+        "version": "1.0.0"
+    },
+
+    "servers": [
+        {
+            "url": "https://edinemenu.deviotsolution.ooredoo.qa/",
+            "description": ""
+        }
+    ],
+
+    "paths": {
+        "accounts/{accountId}/assets": {
+            "post": {
+                "summary": "",
+                "description": "",
+                "tags": ["Manage Assets"],
+                "requestBody": {
+                    "content": {
+                        "application/json":{
+                            "schema": {
+                                "$ref": "#/components/schemas/asset"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "$ref": "#/components/schemas/asset"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "list of assets for an account",
+                "description": "",
+                "tags": ["Manage Assets"],
+                "responses":{
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "$ref": "#/components/schemas/asset"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "accounts/{accountId}/assets/{assetId}": {
+            "get": {
+                "summary": "get asset of an account by ID",
+                "description": "",
+                "tags":["Manage Assets"],
+                "responses":{
+                    "200": {
+                        "description": "success",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref":"#/components/schemas/asset"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "accounts": {
+            "post": {
+                "summary": "add a new account while setting up a new tenant",
+                "description": "register account for the tenant",
+                "tags": ["Manage Accounts"],
+                "requestBody":{
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/account"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/account"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "get account setup for the tenant",
+                "description": "account info",
+                "tags": ["Manage Accounts"],
+                "responses":{
+                    "200":{
+                        "description": "success",
+                        "content":{
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/account"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no account registered for the tenant, setup a new account"
+                    }
+                }
+
+            }
+        },
+        "accounts/{accountId}/assets/{assetId}/childDevices": {
+            "post": {
+                "summary": "add a device child to an asset",
+                "description": "link a device to an asset",
+                "tags": ["Manage Asset-Device Linkage"],
+                "requestBody":{
+                    "content":{
+                        "application/json":{
+                            "schema": {
+                                "type":"object",
+                                "properties": {
+                                    "deviceId": {
+                                        "type": "integer",
+                                        "description": "platform id of the device",
+                                        "example": 3445
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200": {
+                        "description": "success",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref":"#/components/schemas/response"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "accounts/{accountId}/assets/{assetId}/childDevices/{deviceId}":{
+            "delete": {
+                "summary": "un-link device from an asset",
+                "description": "remove device as part of the asset",
+                "tags": ["Manage Asset-Device Linkage"],
+                "responses": {
+                    "200": {
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref":"#/components/schemas/response"
+                                }
+                            }
+                        },
+                        "description": "success"
+                    }
+                }
+            }
+        }
+    },
+
+    "components": {
+        "schemas": {
+            "response": {
+                "type": "object",
+                "properties": {
+                    "body": {
+                        "type": "object"
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "message of the response",
+                        "example": "success"
+                    },
+                    "error": {
+                        "type": "object"
+                    }
+                }
+            },
+            "id": {
+                "type":"integer",
+                "description": "platform generated ID of the object",
+                "example": 6445
+            },
+            "module": {
+                "type": "object",
+                "description": "modules available for accounts to be subscribed",
+                "properties": {
+                    "id": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/id"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "name of the module",
+                        "example": "Restaruant/Hotel/Office"
+                    },
+                    "eval": {
+                        "type": "string",
+                        "description": "value of the module",
+                        "example": "ED_RESTAURANT"
+                    }
+                }
+            },
+            "floor": {
+                "type": "object",
+                "description": "",
+                "properties": {
+                    "id": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/id"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the Floor",
+                        "example": "Floor-8"
+                    }
+                }
+            },
+            "assetType": {
+                "type": "object",
+                "description": "",
+                "properties": {
+                    "id": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/id"
+                    },
+                    "name":{
+                        "type": "string",
+                        "description": "Name of the asset type",
+                        "example": "Waste-Bin"
+                    },
+                    "eval": {
+                        "type": "string",
+                        "description": "type of an asset",
+                        "example": "ED_FREEZER"
+                    }
+                }
+            },
+            "asset": {
+                "type": "object",
+                "description": "asset for an account can be bin/freezer/table/seat",
+                "properties": {
+                    "id": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/id"
+                    },
+                    "assetType": {
+                        "type": "object",
+                        "$ref":"#/components/schemas/assetType"
+                    },
+                    "floorId": {
+                        "type": "object",
+                        "$ref":"#/components/schemas/floor"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "required name of the asset",
+                        "example": "Freezer-FZL10879M"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "type of asset to be added, madatory for backend logic",
+                        "example": "bin/freezer/table/seat"
+                    }
+                }
+            },
+            "account": {
+                "type": "object",
+                "description": "",
+                "properties": {
+                    "id": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/id"
+                    },
+                    "tenant": {
+                        "type": "string",
+                        "description": "tenantId/tenant Name of the setup account",
+                        "example": "edinemenu"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "name of the account",
+                        "example": "Jubliant Foods Pvt. Ltd"
+                    },
+                    "alias": {
+                        "type": "string",
+                        "description": "short name for the account to be known, field will be used as owner for assets and devices",
+                        "example": "jubliant"
+                    },
+                    "module": {
+                        "type": "object",
+                        "$ref":"#/components/schemas/module"
+                    }
+                }
+            }
+        }
+    },
+
+    "tags": [
+        {
+            "name": "Manage Assets",
+            "description": "API's to manage assests for an account"
+        },
+        {
+            "name": "Manage Asset-Types",
+            "description": "API's to manage assest types for an platform"
+        },
+        {
+            "name": "Platform API's",
+            "description": "API's to manage platform"
+        },
+        {
+            "name": "Manage Account",
+            "description": "API's to setup and manage account related information"
+        },
+        {
+            "name": "Manage Asset-Device Linkage",
+            "description": "API's to manage asset device linkages"
+        },
+        {
+            "name": "Restaurant-Module API's",
+            "description": "API's to manage Restaurant Module for an account"
+        }
+    ]
+}
