@@ -22,7 +22,56 @@
     ],
 
     "paths": {
-        "/accounts/devices": {
+        "platform/modules": {
+            "post": {
+                "tags": ["Manage Modules", "Platform API's"],
+                "summary": "Modules to be subscribed by the accounts",
+                "description": "",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/module"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200":{
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/module"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Manage Modules", "Platform API's"],
+                "summary": "get modules from the platform",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type":"object",
+                                        "$ref":"#/components/schemas/module"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/accounts/{accountId}/devices": {
             "post": {
                 "tags": ["Manage Devices"],
                 "summary": "create new device in platform",
@@ -70,7 +119,7 @@
                 }
             }
         },
-        "/accounts/devices/{deviceId}/status": {
+        "/accounts/{accountId}/devices/{deviceId}/status": {
             "patch":{
                 "tags":["Manage Devices"],
                 "summary":"",
@@ -105,82 +154,7 @@
                 }
             }
         },
-        "/platform/organizations": {
-            "post": {
-                "tags": ["Manage Organizations"],
-                "summary": "",
-                "description": "",
-                "parameters": [],
-                "requestBody": {
-                    "content": {
-                        "application/json":{
-                            "schema": {
-                                "$ref": "#/components/schemas/organization"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "content": {
-                            "application/json": {
-                                "schema":{
-                                    "$ref":"#/components/schemas/organization"
-                                }
-                            }
-                        },
-                        "description":""
-                    }
-                }
-            },
-            "get": {
-                "summary": "",
-                "tags": ["Manage Organizations"],
-                "description": "",
-                "parameters": [],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema":{
-                                "$ref": "#/components/schemas/organization"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "content":{
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/organization"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/paltform/organizations/{orgId}": {
-            "get":{
-                "description": "",
-                "summary": "",
-                "tags":["Manage Organizations"],
-                "responses":{
-                    "200":{
-                        "description":"success",
-                        "content":{
-                            "application/json":{
-                                "schema":{
-                                    "$ref":"#/components/schemas/organization"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/accounts/devices/templates": {
+        "/accounts/{accountId}/devices/templates": {
             "post": {
                 "tags": ["Manage Device Templates"],
                 "description": "",
@@ -236,7 +210,7 @@
                 }
             }
         },
-        "/accounts/devices/templates/{templateId}": {
+        "/accounts/{accountId}/devices/templates/{templateId}": {
             "get": {
                 "description":"",
                 "tags": ["Manage Device Templates"],
@@ -263,7 +237,7 @@
                 }
             }
         },
-        "/accounts/devices/types": {
+        "/accounts/{accountId}/devices/types": {
             "post": {
                 "description": "",
                 "summary": "",
@@ -574,12 +548,146 @@
                         }
                     }
                 }
+            },
+            "get": {
+                "tags": ["Restaurant-Module API's"],
+                "summary": "get all restaurants registered with the account",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "$ref": "#/components/schemas/restaurant"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "accounts/{accountId}/restaurants/restaurants/{restaurantId}/stores": {
+            "post": {
+                "tags": ["Restaurant-Module API's"],
+                "summary": "post a new store/branch in the platform",
+                "description": "",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/store"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/store"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Restaurant-Module API's"],
+                "summary": "get all stores registered under restaurant",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "$ref": "#/components/schemas/store"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "accounts/{accountId}/restaurants/restaurants/{restaurantId}/stores/{storeId}/floors": {
+            "post": {
+                "tags": ["Restaurant-Module API's"],
+                "summary": "register floors under store",
+                "description": "",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/floor"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/floor"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Restaurant-Module API's"],
+                "summary": "get all registered floors under a store",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "$ref":"#/components/schemas/floor"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     },
 
     "components": {
         "schemas": {
+            "store": {
+                "type": "object",
+                "description": "store object properties",
+                "properties": {
+                    "id": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/id"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "name of the store",
+                        "example": "KFC-Old Airport Branch"
+                    }
+                }
+            },
             "restaurant": {
                 "type": "object",
                 "description": "",
@@ -920,16 +1028,16 @@
             "description": "operations"
         },
         {
-            "name": "Manage Organizations",
-            "description": "operations"
-        },
-        {
             "name": "Manage Device Templates",
             "description": "operations"
         },
         {
             "name": "Manage Device Types",
             "description": "operations"
+        },
+        {
+            "description": "modules to be subscribed by the account",
+            "name": "Manage Modules"
         }
     ]
 }
