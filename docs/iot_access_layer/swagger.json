@@ -668,11 +668,208 @@
                     }
                 }
             }
+        },
+        "accounts/{accountId}/live-view":{
+            "get": {
+                "tags": ["Manage Live-View"],
+                "summary": "get live view response from the service",
+                "description": "",
+                "parameters":[
+                    {
+                        "in": "query",
+                        "name": "storeId",
+                        "schema": {
+                            "type":"integer"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "floorId",
+                        "schema": {
+                            "type":"integer"
+                        }
+                    }
+                ],
+                "responses":{
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/live-view"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
 
     "components": {
         "schemas": {
+            "coldChainFragment": {
+                "type": "object",
+                "properties": {
+                    "ed_ConditionState": {
+                        "type": "object",
+                        "properties": {
+                            "temperature": {
+                                "type": "object",
+                                "properties": {
+                                    "value": {
+                                        "type":"integer",
+                                        "description": "value of the temperature reading",
+                                        "example": 45
+                                    },
+                                    "unit": {
+                                        "type": "string",
+                                        "description": "unit of measure for the value",
+                                        "example": "C"
+                                    }
+                                }
+                            },
+                            "humidity": {
+                                "type": "object",
+                                "properties": {
+                                    "value": {
+                                        "type":"integer",
+                                        "description": "value of the humidity reading",
+                                        "example": 89
+                                    },
+                                    "unit": {
+                                        "type": "string",
+                                        "description": "unit of measure for the value",
+                                        "example": "%"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "wasteFragment": {
+                "type": "object",
+                "properties": {
+                    "ed_FillingState": {
+                        "type": "object",
+                        "properties": {
+                            "value": {
+                                "type": "integer",
+                                "description": "filling percentage",
+                                "example": 78
+                            },
+                            "unit": {
+                                "type": "string",
+                                "description": "unit of measure for the value",
+                                "example": "%"
+                            }
+                        }
+                    }
+                }
+            },
+            "occupencyFragment": {
+                "type": "object",
+                "properties":{
+                    "ed_OccupancyState": {
+                        "type": "object",
+                        "properties": {
+                            "occupency": {
+                                "type": "integer",
+                                "description": "status of occupency 1/0",
+                                "example": 0
+                            },
+                            "vacant": {
+                                "type": "integer",
+                                "description": "status of vaccancy 1/0",
+                                "example": 1
+                            }
+                        }
+                    }
+                }
+            },
+            "deviceMeta": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "name of the device",
+                        "example": "SN19087773"
+                    },
+                    "id": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/id"
+                    }
+                }
+            },
+            "assetMeta": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/id"
+                    },
+                    "name":{
+                        "type": "string",
+                        "description": "name of the asset",
+                        "example": "Table-124"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "type of the asset",
+                        "example": "ED_OCCUPENCY"
+                    },
+                    "isLinked": {
+                        "type": "boolean",
+                        "description": "status of asset linkage with device",
+                        "example": "true/false"
+                    }
+                }
+            },
+            "liveViewMeta": {
+                "type": "object",
+                "description": "it can be any of one value from A,B or C",
+                "properties": {
+                    "A": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/occupencyFragment"
+                    },
+                    "B": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/wasteFragment"
+                    },
+                    "C": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/coldChainFragment"
+                    }
+                }
+            },
+            "live-view": {
+                "type": "array",
+                "description": "live - view object schema",
+                "items": {
+                    "type":"object",
+                    "properties":{
+                        "assetMeta":{
+                            "type": "object",
+                            "$ref": "#/components/schemas/assetMeta"
+                        },
+                        "deviceMeta": {
+                            "type": "object",
+                            "$ref": "#/components/schemas/deviceMeta"
+                        },
+                        "lastUpdated": {
+                            "type": "string",
+                            "description": "timestamp related to last updated object timestamp",
+                            "example": "2021-04-22T14:52:35.169+03:00"
+                        },
+                        "liveViewMeta": {
+                            "type": "object",
+                            "$ref": "#/components/schemas/liveViewMeta"
+                        }
+                    }
+                }
+            },
             "store": {
                 "type": "object",
                 "description": "store object properties",
@@ -1038,6 +1235,18 @@
         {
             "description": "modules to be subscribed by the account",
             "name": "Manage Modules"
+        },
+        {
+            "name": "Manage Live-View",
+            "description": "manage live view section of dashboard"
+        },
+        {
+            "name": "Manage Analytics",
+            "description": "Manage Analytics section of the dashboard"
+        },
+        {
+            "name": "Manage Alarms",
+            "description": "manage alarms section of the dashboard"
         }
     ]
 }
