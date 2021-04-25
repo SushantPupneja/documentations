@@ -522,7 +522,7 @@
                 }
             }
         },
-        "accounts/{accountId}/restaurnats/restaurants": {
+        "accounts/{accountId}/restaurants/restaurants": {
             "post": {
                 "tags": ["Restaurant-Module API's"],
                 "summary": "managed subscribed restaurant module",
@@ -905,10 +905,15 @@
                         "desciption": "id of the registered template",
                         "example": 10
                     },
-                    "title": {
+                    "name": {
                         "type": "string",
-                        "desciption": "title correspond template",
+                        "desciption": "name correspond template",
                         "example": "SmartMeter_2.0"
+                    },
+                    "model": {
+                        "type": "string",
+                        "desciption": "model correspond device",
+                        "example": "E650"
                     },
                     "device_type_id": {
                         "type": "integer",
@@ -998,43 +1003,19 @@
                         "description": "",
                         "example": "string"
                     },
-                    "imei": {
-                        "type": "string",
-                        "description": "",
-                        "example": "string"
-                    },
-                    "model": {
-                        "type": "string",
-                        "description": "",
-                        "example": "string"
-                    },
-                    "credentials": {
-                       "$ref": "#/components/schemas/credentials"
-                    },
-                    "template_id": {
+                    "templateId": {
                         "type": "integer",
                         "description": "",
                         "example": 1
                     },
-                    "device_type_id": {
-                        "type": "integer",
-                        "description": "",
-                        "example": 1
+                    "deviceType": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/device-types"
                     },
-                    "organisation_id": {
-                        "type": "integer",
-                        "description": "",
-                        "example": 1
-                    },
-                    "required_interval": {
+                    "requiredInterval": {
                         "type": "integer",
                         "description": "data interval time in min(s)",
                         "example": 10
-                    },
-                    "status": {
-                        "type": "string",
-                        "description": "",
-                        "example": "ACTIVE/INACTIVE"
                     }
                 }
             },
