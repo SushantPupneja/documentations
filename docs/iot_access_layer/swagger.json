@@ -703,6 +703,44 @@
                     }
                 }
             }
+        },
+        "accounts/{accountId}/hierarchy":{
+            "get":{
+                "tags":["Manage Hierarchy"],
+                "description": "",
+                "summary": "get hierarchy for the account",
+                "responses":{
+                    "200":{
+                        "description": "success",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref": "#/components/schemas/hierarchy"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "accounts/{accountId}/alarms": {
+            "get": {
+                "tags": ["Manage Alarms"],
+                "description": "",
+                "summary": "get account related alarms",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref":"#/components/schemas/dashboardAlarms"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
 
@@ -882,6 +920,21 @@
                         "type": "string",
                         "description": "name of the store",
                         "example": "KFC-Old Airport Branch"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "email address for the account",
+                        "example": "info@jubliant.com"
+                    },
+                    "mobile": {
+                        "type": "string",
+                        "description": "contact for the account",
+                        "example": "(+91)-89762-98700"
+                    },
+                    "address": {
+                        "type": "string",
+                        "description": "address for the account",
+                        "example": "A-66 Kings Avenue Park Drive NY USA 150098"
                     }
                 }
             },
@@ -889,10 +942,29 @@
                 "type": "object",
                 "description": "",
                 "properties":{
+                    "id": {
+                        "type":"object",
+                        "$ref": "#/components/schemas/id"
+                    },
                     "name": {
                         "type": "string",
                         "description": "name of the restaurant",
                         "example": "KFC-Al-Matar-Al-Qadeem"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "email address for the account",
+                        "example": "info@jubliant.com"
+                    },
+                    "mobile": {
+                        "type": "string",
+                        "description": "contact for the account",
+                        "example": "(+91)-89762-98700"
+                    },
+                    "address": {
+                        "type": "string",
+                        "description": "address for the account",
+                        "example": "A-66 Kings Avenue Park Drive NY USA 150098"
                     }
                 }
             },
@@ -1088,6 +1160,11 @@
                         "type": "string",
                         "description": "Name of the Floor",
                         "example": "Floor-8"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "add more information about floors like open roof, basement, outdoor, indoor",
+                        "example": "outdoor"
                     }
                 }
             },
@@ -1141,6 +1218,16 @@
                         "type": "string",
                         "description": "type of asset to be added, madatory for backend logic",
                         "example": "bin/freezer/table/seat"
+                    },
+                    "installation": {
+                        "type": "object",
+                        "properties": {
+                            "area": {
+                                "type": "string",
+                                "description": "the floor area where asset is placed",
+                                "example": "kitchen"
+                            }
+                        }
                     }
                 }
             },
@@ -1170,6 +1257,139 @@
                     "module": {
                         "type": "object",
                         "$ref":"#/components/schemas/module"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "email address for the account",
+                        "example": "info@jubliant.com"
+                    },
+                    "mobile": {
+                        "type": "string",
+                        "description": "contact for the account",
+                        "example": "(+91)-89762-98700"
+                    },
+                    "address": {
+                        "type": "string",
+                        "description": "address for the account",
+                        "example": "A-66 Kings Avenue Park Drive NY USA 150098"
+                    }
+                }
+            },
+            "hierarchy":{
+                "type": "object",
+                "description": "account hierarchy object",
+                "properties": {
+                    "restaurants": {
+                        "type":"array",
+                        "items":{
+                            "type": "object",
+                            "properties": {
+                                "obj": {
+                                    "type":"object",
+                                    "$ref":"#/components/schemas/restaurant"
+                                },
+                                "stores": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties":{
+                                            "obj": {
+                                                "type": "object",
+                                                "$ref": "#/components/schemas/store"
+                                            },
+                                            "floors": {
+                                                "type": "array",
+                                                "items":{
+                                                    "type": "object",
+                                                    "$ref":"#/components/schemas/floor"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "alarm": {
+                "type": "object",
+                "properties":{
+                    "id": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/id"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "type of alarm",
+                        "example": "c8y_UnavialabilityAlarm"
+                    },
+                    "severity": {
+                        "type": "string",
+                        "description": "severity of the alarm",
+                        "example": "CRITICAL"
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "state of the alarm",
+                        "example": "ACTIVE/ACKNOWLEDGED"
+                    },
+                    "creationTime": {
+                        "type": "string",
+                        "description": "time stamp for alarm creation",
+                        "example": "2021-04-22T15:26:45.406+04:00"
+                    },
+                    "source": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/id"
+                            },
+                            "name": {
+                                "type": "string",
+                                "description": "name of the alarm creation entity",
+                                "example": "Table-12"
+                            }
+                        }
+                    }
+                }
+            },
+            "dashboardAlarms": {
+                "type": "object",
+                "properties": {
+                    "TOTAL": {
+                        "type": "integer",
+                        "description": "total active alarm count",
+                        "example": 40
+                    },
+                    "MINOR": {
+                        "type": "integer",
+                        "description": "minor active alarm count",
+                        "example": 10
+                    },
+                    "MAJOR": {
+                        "type": "integer",
+                        "description": "major active alarm count",
+                        "example": 10
+                    },
+                    "WARNING": {
+                        "type": "integer",
+                        "description": "warning active alarm count",
+                        "example": 10
+                    },
+                    "CRITICAL": {
+                        "type": "integer",
+                        "description": "critical active alarm count",
+                        "example": 10
+                    },
+                    "alarms": {
+                        "type": "array",
+                        "description": "array of alarm object",
+                        "items": {
+                            "type": "object",
+                            "$ref": "#/components/schemas/alarm"
+                        }
                     }
                 }
             }
@@ -1228,6 +1448,10 @@
         {
             "name": "Manage Alarms",
             "description": "manage alarms section of the dashboard"
+        },
+        {
+            "name": "Manage Hierarchy",
+            "description": "get hierarchy of the account"
         }
     ]
 }
